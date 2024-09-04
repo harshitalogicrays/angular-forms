@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" >angularpro</a>
+        <button
+            class="navbar-toggler d-lg-none"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapsibleNavId"
+            aria-controls="collapsibleNavId"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/" routerLinkActive="active text-danger bg-warning" [routerLinkActiveOptions]="{exact:true}"  >Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/about" routerLinkActive="active text-danger bg-warning" [routerLinkActiveOptions]="{exact:true}"
+                   >About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                        href="#" id="dropdownId"     
+                        data-bs-toggle="dropdown" >Forms</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/tdfform" routerLinkActive="active text-danger bg-warning" [routerLinkActiveOptions]="{exact:true}" 
+                            >Template Driven Forms</a>
+                        <hr class="dropdown-divider">
+                        <a class="dropdown-item" href="#">Reactive forms</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/login" routerLinkActive="active text-danger bg-warning" [routerLinkActiveOptions]="{exact:true}">
+                    Login </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/register" routerLinkActive="active text-danger bg-warning" [routerLinkActiveOptions]="{exact:true}">Register</a>
+                </li>
+             </ul>
+           
+        </div>
+    </div>
+</nav>
+

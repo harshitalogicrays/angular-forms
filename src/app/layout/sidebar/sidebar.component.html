@@ -1,0 +1,12 @@
+<ul class="nav flex-column">
+  @for (item of siderbarlinks; track item.id) {
+    <li class="nav-item">
+      <a class="nav-link" 
+       routerLink={{item.link}} routerLinkActive="active text-danger bg-warning" 
+       [routerLinkActiveOptions]="{exact:true}">
+        {{item.text}}
+      </a>
+    </li>  
+  }
+  @empty {<h1>No Link Found</h1>}
+  </ul>

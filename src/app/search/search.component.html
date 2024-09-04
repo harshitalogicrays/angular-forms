@@ -1,0 +1,24 @@
+    <!-- <div class="mb-3">
+    <label for="" class="form-label">Search Here</label>
+    <div class="input-group">
+    <input class="form-control" type="text" placeholder="Search" #searchtext/>
+    <button class="btn btn-danger my-2 my-sm-0" type="submit" (click)="updateSearch(searchtext)">
+    <mat-icon fontIcon="search"></mat-icon>
+    </button>
+</div>
+@if (searchData!='') {
+<p>Search result for - {{searchData}}</p>}
+</div> -->
+
+
+<div class="mb-3">
+    <label for="" class="form-label">Search Here</label>
+    <div class="input-group">
+    <input class="form-control" type="text" placeholder="Search" #searchtext/>
+    <button class="btn btn-danger my-2 my-sm-0" type="submit" (click)="updateSearch()">
+    <mat-icon fontIcon="search"></mat-icon>
+    </button>
+</div>
+@if (searchtext.value !='') {
+<p appCustomdirective>Search result for - {{searchtext.value}}</p>}
+</div>
