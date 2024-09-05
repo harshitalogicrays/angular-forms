@@ -1,33 +1,60 @@
 <div class="container mt-5 shadow p-3">
     <h1>TDF Form</h1><hr/>
-    <div class="row">
-        <div class="col mb-3">
-            <label for="" class="form-label">Name</label>
-            <input type="text" class="form-control" name="name">
-        </div>
-        <div class="col mb-3">
-            <label for="" class="form-label">Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
+    <form #regfrm="ngForm" (submit)="onFormSubmit()">
+        <div class="row">
+            <div class="col mb-3">
+                <label for="" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" #name="ngModel"  [(ngModel)]="user.name"
+                required>
+                @if(name.touched && name.invalid){
+                <span class="text-danger">Name is required</span>
+                }
+            </div>
+            <div class="col mb-3">
+                <label for="" class="form-label">Email</label>
+                <input type="text" class="form-control" name="email" #email="ngModel"  [(ngModel)]="user.email" required pattern="[\w.]+@[\w]+.[a-zA-Z]{3}">
+                @if(email.errors?.['required'] && email.touched && email.invalid){
+                    <span class="text-danger">Email is required</span>
+                    }
+                    @else if (email.errors?.['pattern'] && email.touched && email.invalid) { <span class="text-danger">Invalid Email</span>}
+            </div>
+            </div>
+            <div class="row">
+            <div class="col mb-3">
+                <label for="" class="form-label">DOB</label>
+                <input type="date" class="form-control" name="dob"  [(ngModel)]="user.dob">
+            </div>
+            <div class="col mb-3">
+                <label for="" class="form-label">Mobile</label>
+                <input type="number" class="form-control" name="mobile" [(ngModel)]="user.mobile"
+                required>
+            </div>
         </div>
         <div class="row">
-        <div class="col mb-3">
-            <label for="" class="form-label">DOB</label>
-            <input type="date" class="form-control" name="dob">
+            <div class="col mb-3">
+                <label for="" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="user.password"
+                required>
+            </div>
+            <div class="col mb-3">
+                <label for="" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="cpassword" [(ngModel)]="user.cpassword"
+                required>
+            </div>
         </div>
-        <div class="col mb-3">
-            <label for="" class="form-label">Mobile</label>
-            <input type="number" class="form-control" name="mobile">
-        </div>
+        
+        <div class="mb-3">
+            <label for="" class="form-label me-3">Gender</label>
+            @for (item of gender; track $index) {
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" value={{item.value}} [id]="item.id"  [(ngModel)]="user.gender" />
+                    <label class="form-check-label" for="">{{item.text}}</label>
+                </div>  
+            }
+          
+        
     </div>
-    <div class="row">
-        <div class="col mb-3">
-            <label for="" class="form-label">Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-        <div class="col mb-3">
-            <label for="" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" name="cpassword">
-        </div>
-    </div>
+        <button  type="submit"  class="btn btn-primary" [disabled]="regfrm.invalid"> Submit </button>
+    
+</form>
     </div>

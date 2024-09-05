@@ -1,0 +1,56 @@
+<div class="container mt-5 shadow p-3">
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name">Product Name</label>
+      <input id="name" formControlName="name" class="form-control"/>
+      <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+        <small class="text-danger" *ngIf="productForm.get('name')?.errors?.['required']">Name is required.</small>
+        <small class="text-danger" *ngIf="productForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters long.</small>
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <label for="brand">Brand</label>
+      <input id="brand" formControlName="brand" class="form-control"/>
+      <div *ngIf="productForm.get('brand')?.invalid && productForm.get('brand')?.touched">
+        <small class="text-danger" *ngIf="productForm.get('brand')?.errors?.['required']">Brand is required.</small>
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <label for="price">Price</label>
+      <input id="price" formControlName="price" type="number" class="form-control"/>
+      <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+        <small class="text-danger" *ngIf="productForm.get('price')?.errors?.['required']">Price is required.</small>
+        <small class="text-danger" *ngIf="productForm.get('price')?.errors?.['min']">Price must be a positive number.</small>
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <label for="category">Category</label>
+      <input id="category" formControlName="category" class="form-control" />
+      <div *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched">
+        <small class="text-danger" *ngIf="productForm.get('category')?.errors?.['required']">Category is required.</small>
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <label for="stock">Stock</label>
+      <input id="stock" formControlName="stock" type="number" class="form-control"/>
+      <div *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched">
+        <small class="text-danger" *ngIf="productForm.get('stock')?.errors?.['required']">Stock is required.</small>
+        <small class="text-danger" *ngIf="productForm.get('stock')?.errors?.['min']">Stock must be a positive number.</small>
+      </div>
+    </div>
+  
+    <div class="mb-3">
+      <label for="image">Image</label>
+      <input id="image" type="file" (change)="onFileChange($event)" class="form-control"/>
+      <div *ngIf="productForm.get('image')?.invalid && productForm.get('image')?.touched">
+        <small class="text-danger" *ngIf="productForm.get('image')?.errors?.['required']">Image is required.</small>
+      </div>
+    </div>
+  
+    <button type="submit" [disabled]="productForm.invalid" class="btn btn-primary">Submit</button>
+  </form>
+</div>

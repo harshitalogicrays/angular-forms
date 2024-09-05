@@ -1,0 +1,83 @@
+<div class="container mt-5 col-8 shadow p-3">
+    <h1>Reactive Form</h1><hr/>
+    <form [formGroup]="reactiveform" (submit)="onFormSubmit()">
+    <div class="row">
+        <div class="col mb-3">
+            <label for="" class="form-label">Name</label>
+            <input type="text" class="form-control" name="name" formControlName="name">
+            @if(reactiveform.get('name').touched && reactiveform.get('name').invalid){
+                <span class="text-danger">Name is required</span>
+                }
+        </div>
+        <div class="col mb-3">
+            <label for="" class="form-label">Email</label>
+            <input type="text" class="form-control" name="email" formControlName="email">
+            @if(reactiveform.get('email').errors?.['required'] && reactiveform.get('email').touched && reactiveform.get('email').invalid){
+                <span class="text-danger">Email is required</span>
+                }
+                @else if (reactiveform.get('email').errors?.['email'] && reactiveform.get('email').touched && reactiveform.get('email').invalid) { <span class="text-danger">Invalid Email</span>}
+        
+        </div>
+        </div>
+        <div class="row">
+        <div class="col mb-3">
+            <label for="" class="form-label">DOB</label>
+            <input type="date" class="form-control" name="dob" formControlName="dob">
+        </div>
+        <div class="col mb-3">
+            <label for="" class="form-label">Mobile</label>
+            <input type="number" class="form-control" name="mobile" formControlName="mobile">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3">
+            <label for="" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" formControlName="password">
+        </div>
+        <div class="col mb-3">
+            <label for="" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="cpassword" formControlName="cpassword">
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label for="" class="form-label me-3">Gender</label>
+        @for (item of gender; track $index) {
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" value={{item.value}} [id]="item.id" formControlName="gender" />
+                <label class="form-check-label" for="">{{item.text}}</label>
+            </div>  
+        } 
+</div>
+    <div class="mb-3 p-3" style="border:2px solid black" formGroupName="address">
+        <label for="" class="form-label">Address</label>
+        <div class="row">
+            <div class="col mb-3">
+                <label for="" class="form-label">Street</label>
+                <input type="text" class="form-control" name="street" formControlName="">
+            </div>
+            <div class="col mb-3">
+                <label for="" class="form-label">City</label>
+                <input type="text" class="form-control" name="city">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label for="" class="form-label">state</label>
+                <input type="text" class="form-control" name="state">
+            </div>
+            <div class="col mb-3">
+                <label for="" class="form-label">Country</label>
+                <input type="text" class="form-control" name="country">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Pincode</label>
+            <input type="number" class="form-control" name="pincode">
+        </div>
+    </div>
+
+    <button  type="submit"  class="btn btn-primary" > Submit </button>
+    
+</form>
+    </div>
