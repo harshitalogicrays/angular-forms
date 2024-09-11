@@ -7,7 +7,12 @@
             <input type="text" class="form-control" name="name" formControlName="name">
             @if(reactiveform.get('name').touched && reactiveform.get('name').invalid){
                 <span class="text-danger">Name is required</span>
-                }
+            }
+            @else if(reactiveform.get('name').errors?.maxWord){
+                <span class="text-danger"
+                >Exceeds maximum word count. Max: {{ reactiveform.get('name').errors['maxWord'].required }},
+                    Actual: {{ reactiveform.get('name').errors['maxWord'].actual }}.</span>
+            }
         </div>
         <div class="col mb-3">
             <label for="" class="form-label">Email</label>
@@ -33,10 +38,15 @@
         <div class="col mb-3">
             <label for="" class="form-label">Password</label>
             <input type="password" class="form-control" name="password" formControlName="password">
+            @if(reactiveform.get('password').errors?.['required'] && reactiveform.get('password').touched && reactiveform.get('password').invalid){
+                <span class="text-danger">Password is required</span>
+                }
+              
         </div>
         <div class="col mb-3">
             <label for="" class="form-label">Confirm Password</label>
             <input type="password" class="form-control" name="cpassword" formControlName="cpassword">
+            @if ((reactiveform.get('cpassword').errors?.['required'] && reactiveform.get('cpassword').touched && reactiveform.get('cpassword').invalid)|| (reactiveform.errors?.['notEqual'] && reactiveform.get('cpassword').touched)) { <span class="text-danger">Password not match</span>}
         </div>
     </div>
     
@@ -49,35 +59,57 @@
             </div>  
         } 
 </div>
+        <!-- setvalue and patchvalue -->
+        <button type="button" class="btn btn-danger mb-3" (click)="loadAddress()">Load Address</button>
+        
     <div class="mb-3 p-3" style="border:2px solid black" formGroupName="address">
         <label for="" class="form-label">Address</label>
         <div class="row">
             <div class="col mb-3">
                 <label for="" class="form-label">Street</label>
-                <input type="text" class="form-control" name="street" formControlName="">
+                <input type="text" class="form-control" name="street" formControlName="street">
             </div>
             <div class="col mb-3">
                 <label for="" class="form-label">City</label>
-                <input type="text" class="form-control" name="city">
+                <input type="text" class="form-control" name="city" formControlName="city">
             </div>
         </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label for="" class="form-label">state</label>
-                <input type="text" class="form-control" name="state">
-            </div>
+        <div class="row">       
             <div class="col mb-3">
                 <label for="" class="form-label">Country</label>
-                <input type="text" class="form-control" name="country">
+                <select class="form-select" name="country" formControlName="country">
+                    <option value="" selected disabled>-- Select Country --</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="India">India</option>
+                </select>
+            </div>
+            <div class="col mb-3">
+                <label for="" class="form-label">state</label>
+                <select id="state" class="form-select" formControlName="state" >
+                    <option value="" selected disabled>Select State</option>
+                    <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+                  </select>
             </div>
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Pincode</label>
-            <input type="number" class="form-control" name="pincode">
+            <input type="number" class="form-control" name="pincode" formControlName="pincode">
         </div>
     </div>
 
-    <button  type="submit"  class="btn btn-primary" > Submit </button>
+    <div class="mb-3 p-3" formArrayName="hobbies">
+        <button type="button" class="btn btn-danger mb-2" (click)="AddHobbies()">Add Hobbies</button>
+        @for (control of reactiveform.get('hobbies')['controls']; track $index;let i=$index) {
+            <div class="input-group">
+                <input type="text" class="form-control mb-2" [formControlName]="i" placeholder="enter hobby">
+                <button type="button" class="btn btn-danger mb-2" (click)="DeleteHobby(i)">Delete</button>
+            </div>
+        }
+
+    </div>
+
+    <button  type="submit"  class="btn btn-primary" [disabled]="reactiveform.invalid"> Submit </button>
     
 </form>
     </div>

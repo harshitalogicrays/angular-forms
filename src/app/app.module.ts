@@ -13,6 +13,8 @@ import { ReactiveformComponent } from './reactiveform/reactiveform.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddProductComponent } from './add-product/add-product.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,MainlayoutComponent,NolayoutComponent,SidebarComponent,PagenotfoundComponent, TdfformComponent, ReactiveformComponent, AddProductComponent
@@ -21,9 +23,10 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
-  providers: [provideHttpClient(withFetch())],
+  providers: [provideHttpClient(withFetch()), provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -42,16 +42,7 @@ export class AddProductComponent {
   onSubmit(): void {
     
     if (this.productForm.valid) {
-      // const formData = new FormData();
-      // Object.keys(this.productForm.controls).forEach(key => {
-      //   formData.append(key, this.productForm.get(key)?.value);
-      // });
-      console.log(this.productForm)
-
-      this.http.post('http://localhost:3000/products', this.productForm.value)
-        .subscribe(response => {
-          console.log('Product successfully added!', response);
-        });
-    }
+           console.log(this.productForm.value)
+   }
   }
 }

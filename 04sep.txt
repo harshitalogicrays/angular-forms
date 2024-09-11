@@ -1,0 +1,4 @@
+Form - 
+1. TDF - html  -  FormsModule - ngModel , ngForm 
+2. Reactive  - ReactiveFormModule  -  FormGroup, FormControl, FormArray etc.
+

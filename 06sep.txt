@@ -1,0 +1,7 @@
+FormGroup
+FormArray 
+Custom Valdiations
+valueChanges, StateChanges,
+setValue and patchValue 
+
+HTTP 

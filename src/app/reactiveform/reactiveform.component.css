@@ -1,3 +1,8 @@
 input.ng-invalid.ng-touched{
     border:2px solid red
 }
+
+.mat-snack-bar-container{
+    background-color: black;
+    color:white
+}
