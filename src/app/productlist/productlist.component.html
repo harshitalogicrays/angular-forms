@@ -1,0 +1,41 @@
+
+<div class="container mt-5">
+    <div class="table-responsive" >
+        <table class="table table-bordered table-striped table-hovered"  >
+            <thead>
+                <tr>
+                    <th >Sr. No</th>
+                    <th >Name</th>
+                    <th >Category</th>
+                    <th>Brand</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (products.length==0) {<tr><td colspan="8">No Product Found</td></tr>}
+                @for (product of products; track $index;let i=$index) {
+                <tr class="">
+                    <td>{{i+1}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.brand}}</td>
+                    <td><img src={{product.image}} height="50px" width="50px"/></td>
+                    <td>${{product.price}}</td>
+                    @if(product.stock>0){<td>
+                        <span class="badge rounded-pill text-bg-success" >In Stock</span>
+                    </td>}
+                    @else {<td><span class="badge rounded-pill text-bg-danger" >Out of Stock</span></td>}
+                    <td>
+                        <button  type="button"  class="btn btn-success me-2" (click)="editProduct(product.id)" >Edit  </button>
+                        <button  type="button"  class="btn btn-danger" (click)="deleteProduct(product.id)">delete  </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    
+</div>

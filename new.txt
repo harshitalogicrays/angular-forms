@@ -1,24 +1,214 @@
-  //valueChanges
-    this.reactiveform.get('address.country')?.valueChanges.subscribe((selectedCountry: string) => {
-      const stateControl = this.reactiveform.get('address.state');
-      if (selectedCountry && this.countryStateMap[selectedCountry]) {
-        this.states = this.countryStateMap[selectedCountry];
-        stateControl?.setValue('');
-     } else {
-          stateControl?.setValue('');
-      }
+ editdata=false
+  ngOnInit(): void {
+    // console.log(this.activeRoute.snapshot.params['id'])
+    this.productForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      brand: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(0)]],
+      category: ['', Validators.required],
+      stock: ['', [Validators.required, Validators.min(0)]],
+      image: [null, Validators.required]
     });
-	
-	=====================================================
-	
+
+    this.id = this.activeRoute.snapshot.paramMap.get('id')
+    if(this.id){
+      this.editdata=true
+      this.productservice.getProductById(this.id).subscribe((res:any)=>{
+         this.productForm.patchValue(res);
+      })
+    }
+     
+}
 
 
+ onSubmit(): void {
+    console.log(this.productForm)
+    if(!this.editdata){
+    if (this.productForm.valid) {
+          //  console.log(this.productForm.value)
+        this.productservice.createProduct(this.productForm.value).subscribe(()=>{
+          this.snackbarservice.showSnackBar("product added",2000,'custom-snackbar-error')
+          this.router.navigateByUrl('/products')
+        })
+   }
+  }
+  else {
+    this.productservice.updateProduct(this.id,this.productForm.value).subscribe(()=>{
+      this.snackbarservice.showSnackBar("product updated")
+      this.router.navigateByUrl('/products')
+    })
+  }
+}
+
+=======================================================
+
+@if (editdata) {
+        <img [src]="productForm.get('image')?.value" height="50px" width="50px">
+      }
+	  ==============================================
+	  
+	  productservice -
+	  getAvailableStockProducts(): Observable<Product[]> {
+  return this.http.get<Product[]>(this.url)
+    .pipe(
+      map(products => products.filter(product => product.stock > 0))
+    );
+}
+==========================================
+fetchproduct-
+  isLoading=false
+  productService:ProductService=inject(ProductService)
+  products:Product[] = []
+  ngOnInit(): void {
+    this.isLoading=true
+    this.productService.getAvailableStockProducts().subscribe({
+      next: (res) => {
+        this.products = res;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching data', error);
+        this.isLoading = false;
+      }
+    })
+   }
+
+@if (isLoading) {
+    <app-loader [loading]="isLoading"></app-loader>
+}
+
+<div class="container mt-5">
+<div class="row">
+@for (product of products; track $index;let i=$index) {
+  <div class="col-3">  
+<app-product-card [product]="product"></app-product-card>
+</div>
+}
+</div>
+</div>
+
+=====================================
+loader -
+@Input() loading:boolean
+
+<div class="loader-container" *ngIf="loading">
+    <img src="assets/loader.gif" alt="Loading..." class="loader">
+  </div>
+  
+  .loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it's on top */
+  }
+  
+  .loader {
+    width: 50px; /* Adjust size if needed */
+    height: 50px; /* Adjust size if needed */
+  }
+  
+  
+  ========================================
+  product-card 
+   @Input() product:Product
+   
+   
+<div class="card custom-card mb-3">
+    <img src={{product.image}} class="card-img-top" height="150px"/>
+    <div class="card-body">
+       <div class="card-text">{{product.name}}</div>   
+       <p>{{product.category}}</p>
+       <p>{{product.brand}}</p>
+        <p>${{product.price}}</p>
+      
+        <p [ngStyle]="{'font-weight':'bold',
+        'font-size.px':'16',
+        'color':product.stock>0 ? 'green':'red'}">{{product.stock > 0 ? 'Available in Stock' : 'Out of Stock'}}</p>
+        <button type="button" class="btn btn-info" >
+            Add to Cart
+        </button>
+        
+    </div>
+</div>
 
 
+====================================================
+HttpErrorResponse 
+
+product service -
+
+private handleError(error: HttpErrorResponse) {
+  let errorMessage = 'An unknown error occurred!';   
+  if (error.status === 404) {
+    // Custom message for 404 Not Found
+    errorMessage = 'The URL is incorrect (404). Please check the URL.';
+  } else {
+    // Handle other HTTP error statuses
+    errorMessage = `Error ${error.status}: ${error.message}`;
+  }
+  // Use the new throwError signature
+  return throwError(() => new Error(errorMessage));
+}
+
+getAvailableStockProducts(): Observable<Product[]> {
+  return this.http.get<Product[]>(this.url)
+    .pipe(
+      map(products => products.filter(product => product.stock > 0))
+    ).pipe(
+      catchError(this.handleError)
+    );;
+}
+
+fetch product-
+        this.snackBar.showSnackBar(error)
+
+==================================================================
+ let headers = new HttpHeaders();
+        headers = headers.append('content-type', 'application/json');
+        headers = headers.append('content-type', 'text/html')
+
+        let queryParams = new HttpParams();
+        queryParams = queryParams.set('page', 2);
+        queryParams = queryParams.set('item', 10)
 
 
+ ,{headers: headers, params: queryParams, observe: 'body'}		
+		
+=========================================================
 
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
+@Injectable({
+    providedIn: 'root'
+})
+export class LoggingService{
+    http: HttpClient = inject(HttpClient);
+    logError(data: {statusCode: number, errorMessage: string, datetime: Date}){
+        this.http.post('https://angularhttpclient-f1d30-default-rtdb.firebaseio.com/log.json', data)
+        .subscribe();
+    }
 
+    fetcherrors(){
+        this.http.get('https://angularhttpclient-f1d30-default-rtdb.firebaseio.com/log.json')
+        .subscribe((data) => {
+            console.log(data);
+        })
+    }
+}
+=======================================
+catchError((err) => {
+                //Write the logic to log errors
+                const errorObj = {statusCode: err.status, errorMessage: err.message, datetime: new Date()}
+                this.loggingService.logError(errorObj);
+                return throwError(() => err);
 
+==========================================================
 
+				

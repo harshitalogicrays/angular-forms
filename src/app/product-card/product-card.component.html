@@ -1,0 +1,18 @@
+
+<div class="card custom-card mb-3">
+    <img src={{product.image}} routerLink="/product/details/{{product.id}}" style="cursor: pointer;" class="card-img-top" height="150px"/>
+    <div class="card-body">
+       <div class="card-text">{{product.name}}</div>   
+       <p>{{product.category}}</p>
+       <p>{{product.brand}}</p>
+        <p>${{product.price}}</p>
+      
+        <p [ngStyle]="{'font-weight':'bold',
+        'font-size.px':'16',
+        'color':product.stock>0 ? 'green':'red'}">{{product.stock > 0 ? 'Available in Stock' : 'Out of Stock'}}</p>
+        <button type="button" class="btn btn-info" >
+            Add to Cart
+        </button>
+        
+    </div>
+</div>

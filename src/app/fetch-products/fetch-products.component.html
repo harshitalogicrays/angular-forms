@@ -1,0 +1,17 @@
+<!-- @if (isLoading) {
+    <app-loader [loading]="isLoading"></app-loader>
+} -->
+
+ <!-- <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div> -->
+
+<div class="container mt-5">
+<div class="row">
+@for (product of products; track $index;let i=$index) {
+  <div class="col-3">  
+<app-product-card [product]="product"></app-product-card>
+</div>
+}
+</div>
+</div>

@@ -5,13 +5,15 @@
         <div class="col mb-3">
             <label for="" class="form-label">Name</label>
             <input type="text" class="form-control" name="name" formControlName="name">
-            @if(reactiveform.get('name').touched && reactiveform.get('name').invalid){
+            @if(reactiveform.get('name').errors?.['required'] && reactiveform.get('name').touched && reactiveform.get('name').invalid){
                 <span class="text-danger">Name is required</span>
             }
-            @else if(reactiveform.get('name').errors?.maxWord){
-                <span class="text-danger"
-                >Exceeds maximum word count. Max: {{ reactiveform.get('name').errors['maxWord'].required }},
-                    Actual: {{ reactiveform.get('name').errors['maxWord'].actual }}.</span>
+            @else if(reactiveform.get('name').errors?.wordExceeded){
+                <span class="text-danger">
+                    Exceeded max word count : max 
+                    {{reactiveform.get('name').errors['wordExceeded'].required}} and 
+                    actual: {{reactiveform.get('name').errors['wordExceeded'].actual}}
+                </span>
             }
         </div>
         <div class="col mb-3">
@@ -46,7 +48,8 @@
         <div class="col mb-3">
             <label for="" class="form-label">Confirm Password</label>
             <input type="password" class="form-control" name="cpassword" formControlName="cpassword">
-            @if ((reactiveform.get('cpassword').errors?.['required'] && reactiveform.get('cpassword').touched && reactiveform.get('cpassword').invalid)|| (reactiveform.errors?.['notEqual'] && reactiveform.get('cpassword').touched)) { <span class="text-danger">Password not match</span>}
+            @if ((reactiveform.get('cpassword').errors?.['required'] && reactiveform.get('cpassword').touched && reactiveform.get('cpassword').invalid) ||(
+            reactiveform.errors?.['notEqual'] )) { <span class="text-danger">Password not match</span>}
         </div>
     </div>
     
@@ -59,10 +62,9 @@
             </div>  
         } 
 </div>
-        <!-- setvalue and patchvalue -->
-        <button type="button" class="btn btn-danger mb-3" (click)="loadAddress()">Load Address</button>
-        
     <div class="mb-3 p-3" style="border:2px solid black" formGroupName="address">
+        <button type="button"  class="btn btn-primary mb-2" (click)="loadAddress()">Load Address </button><br/>
+        
         <label for="" class="form-label">Address</label>
         <div class="row">
             <div class="col mb-3">
@@ -74,23 +76,26 @@
                 <input type="text" class="form-control" name="city" formControlName="city">
             </div>
         </div>
-        <div class="row">       
+        <div class="row">
             <div class="col mb-3">
                 <label for="" class="form-label">Country</label>
                 <select class="form-select" name="country" formControlName="country">
-                    <option value="" selected disabled>-- Select Country --</option>
-                    <option value="USA">USA</option>
-                    <option value="Canada">Canada</option>
-                    <option value="India">India</option>
+                    <option value="" selected disabled>Select Country</option>
+                    <option>India</option>
+                    <option>USA</option>
+                    <option>Canada</option>
                 </select>
             </div>
             <div class="col mb-3">
                 <label for="" class="form-label">state</label>
-                <select id="state" class="form-select" formControlName="state" >
+                <select class="form-select" name="state" formControlName="state">
                     <option value="" selected disabled>Select State</option>
-                    <option *ngFor="let state of states" [value]="state">{{ state }}</option>
-                  </select>
+                    @for (state of stateArr; track $index) {
+                        <option [value]="state">{{state}}</option>
+                    }
+                </select>
             </div>
+          
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Pincode</label>

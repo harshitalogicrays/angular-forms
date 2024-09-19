@@ -1,14 +1,8 @@
-import { Component, ElementRef, EventEmitter, ViewChild } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { CustomdirectiveDirective } from '../shared/customdirective.directive';
-
+import { Component, ElementRef,  ViewChild } from '@angular/core';
 @Component({
   selector: 'app-search',
-  standalone: true,
-  imports: [MatIconModule,CustomdirectiveDirective],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
-  outputs:['searchProducts']
 })
 export class SearchComponent {
   /*searchData:string=''
@@ -21,9 +15,7 @@ export class SearchComponent {
   
   @ViewChild('searchtext')searchData:ElementRef
   updateSearch(){
-    this.searchProducts.emit(this.searchData.nativeElement.value)
   }
-  searchProducts:EventEmitter<string> = new EventEmitter<string>()
   
 
 }

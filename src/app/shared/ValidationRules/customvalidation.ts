@@ -11,16 +11,13 @@ export const matchingValues=(control1:string,control2:string):ValidatorFn=> {
 }
 }
 
-
-export let maxWordValidator=(max: number): ValidatorFn => {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      if (!control.value) { return null}
-  
-      const wordCount = control.value.trim().split(/\s+/).length;
-  
-      if (wordCount > max) {
-        return { maxWord: { required: max, actual: wordCount } }
+export const maxWordCount=(maxWords:number):ValidatorFn=> {
+    return (control: AbstractControl): {[key:string]:object} | null =>{
+      const val = control.value || '';
+      const count = val.trim().split(/\s+/).length //    aaa   bbbb ccc
+      if(count > maxWords){
+        return {wordExceeded:{required:maxWords,actual:count}}
       }
-        else return null
-    }
-  }
+      return null
+}
+}
